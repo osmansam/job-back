@@ -5,19 +5,51 @@ const mongoose = require("mongoose");
 const moment = require("moment");
 
 const getAllJobs = async (req, res) => {
-  res.send("get all job");
+  const jobs = await Job.find({ createdBy: req.user.userId });
+  res.status(StatusCodes.OK).json({ jobs });
 };
 const getJob = async (req, res) => {
-  res.send("get job");
+  const job = await Job.findById({
+    _id: req.params.id,
+    createdBy: req.user.userId,
+  });
+  if (!job) {
+    throw new CustomError.NotFoundError("Job not found");
+  }
+  res.status(StatusCodes.OK).json({ job });
 };
 const createJob = async (req, res) => {
-  res.send("create job");
+  req.body.createdBy = req.user.userId;
+  const job = await Job.create(req.body);
+  res.status(StatusCodes.CREATED).json({ job });
 };
 const updateJob = async (req, res) => {
-  res.send("update job");
+  const { company, position } = req.body;
+  if (!company || !position) {
+    throw new CustomError.BadRequestError(
+      "Please provide company and position"
+    );
+  }
+  const job = await Job.findByIdAndUpdate(
+    { _id: req.params.id, createdBy: req.user.userId },
+    req.body,
+    { new: true, runValidators: true }
+  );
+  if (!job) {
+    throw new CustomError.NotFoundError("Job not found");
+  }
+  res.status(StatusCodes.OK).json({ job });
 };
 const deleteJob = async (req, res) => {
-  res.send("delete job");
+  const job = await Job.findById({
+    _id: req.params.id,
+    createdBy: req.user.userId,
+  });
+  if (!job) {
+    throw new CustomError.NotFoundError("Job not found");
+  }
+  await job.remove();
+  res.status(StatusCodes.OK).json({ job });
 };
 module.exports = {
   getAllJobs,
