@@ -1,8 +1,9 @@
+require("dotenv");
 module.exports = {
-  host: 'smtp.ethereal.email',
-  port: 587,
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
   auth: {
-    user: 'tommie.schamberger92@ethereal.email',
-    pass: '3FzkhF7Ut17qFdx3Qx',
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 };
