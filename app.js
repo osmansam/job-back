@@ -29,6 +29,7 @@ const connectDB = require("./db/connect");
 
 //  routers
 const authRouter = require("./routes/authRoutes");
+const jobRouter = require("./routes/jobRoutes");
 
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
@@ -46,6 +47,7 @@ app.use(fileUpload({ useTempFiles: true }));
 
 //app.use("api/v1") stuff will come here
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/job", jobRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
