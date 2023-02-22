@@ -82,6 +82,10 @@ const ProfileSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Please provide user"],
     },
+    isEditing: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
