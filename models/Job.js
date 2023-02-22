@@ -35,5 +35,10 @@ const JobSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+JobSchema.virtual("candidate", {
+  ref: "Candidate",
+  localField: "_id",
+  foreignField: "job",
+  justOne: false,
+});
 module.exports = mongoose.model("Job", JobSchema);

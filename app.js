@@ -31,6 +31,7 @@ const connectDB = require("./db/connect");
 const authRouter = require("./routes/authRoutes");
 const jobRouter = require("./routes/jobRoutes");
 const ProfileRouter = require("./routes/profileRoutes");
+const CandidateRouter = require("./routes/candidateRoutes");
 
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
@@ -50,6 +51,7 @@ app.use(fileUpload({ useTempFiles: true }));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/job", authenticateUser, jobRouter);
 app.use("/api/v1/profile", authenticateUser, ProfileRouter);
+app.use("/api/v1/candidate", authenticateUser, CandidateRouter);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
