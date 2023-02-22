@@ -8,9 +8,13 @@ const moment = require("moment");
 const getAllJobs = async (req, res) => {
   const { search, status, jobType, sort } = req.query;
 
-  const queryObject = {
-    createdBy: req.user.userId,
-  };
+  // const queryObject = {
+  //   createdBy: req.user.userId,
+  // };
+  const queryObject = {};
+  if (req.user.role === "employer") {
+    queryObject.createdBy = req.user.userId;
+  }
 
   if (search) {
     queryObject.position = { $regex: search, $options: "i" };

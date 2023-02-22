@@ -47,7 +47,7 @@ app.use(fileUpload({ useTempFiles: true }));
 
 //app.use("api/v1") stuff will come here
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/job", jobRouter);
+app.use("/api/v1/job", authenticateUser, jobRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
