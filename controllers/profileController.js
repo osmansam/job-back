@@ -3,7 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 
 const getProfile = async (req, res) => {
-  const profile = await Profile.findOne({ user: req.user.id });
+  const profile = await Profile.findOne({ createdBy: req.user.id });
   if (!profile) {
     throw new CustomError.NotFoundError("Profile not found");
   }
