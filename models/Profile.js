@@ -37,6 +37,12 @@ const ProfileSchema = new mongoose.Schema(
       required: [true, "Please provide country"],
       maxlength: 50,
     },
+    zipCode: {
+      type: String,
+      required: [true, "Please provide zip code"],
+      maxlength: 50,
+    },
+
     degree: {
       type: String,
       enum: ["bachelor", "master", "phd"],
