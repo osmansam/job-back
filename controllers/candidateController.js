@@ -16,7 +16,6 @@ const createCandidate = async (req, res) => {
   if (alreadyApplied) {
     throw new CustomError.BadRequestError("You already applied for this job");
   }
-
   const candidate = await Candidate.create({
     user: req.user.userId,
     job: jobId,
@@ -35,15 +34,18 @@ const checkCandidate = async (req, res) => {
     user: req.user.userId,
     job: jobId,
   });
-  //   if (alreadyApplied) {
-  //     throw new CustomError.BadRequestError("You already applied for this job");
-  //   }
   const isCandidate = alreadyApplied ? true : false;
   res.status(StatusCodes.OK).json({ isCandidate });
+};
+const jobCandidates = async (req, res) => {
+  const { job: jobId } = req.body;
+  const candidates = await Candidate.find({ job: jobId }).select("user");
+  res.status(StatusCodes.OK).json(candidates);
 };
 
 module.exports = {
   createCandidate,
   getAllCandidates,
   checkCandidate,
+  jobCandidates,
 };
