@@ -43,7 +43,9 @@ const jobCandidates = async (req, res) => {
   const candidates = await Candidate.find({ job: jobId }).select("user");
   for (let i = 0; i < candidates.length; i++) {
     const profile = await Profile.findOne({ createdBy: candidates[i].user });
+    let id = candidates[i]._id;
     candidates[i] = profile;
+    candidates[i]._id = id;
   }
   res.status(StatusCodes.OK).json(candidates);
 };
