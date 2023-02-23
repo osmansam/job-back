@@ -51,7 +51,7 @@ const jobCandidates = async (req, res) => {
 };
 const updateCandidate = async (req, res) => {
   const { candidateId } = req.body;
-  const candidate = await Candidate.findOneandUpdate(
+  const candidate = await Candidate.findOneAndUpdate(
     { _id: candidateId },
     req.body,
     { new: true, runValidators: true }
