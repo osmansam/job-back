@@ -1,4 +1,5 @@
 const Candidate = require("../models/Candidate");
+const Profile = require("../models/Profile");
 const Job = require("../models/Job");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
@@ -40,6 +41,10 @@ const checkCandidate = async (req, res) => {
 const jobCandidates = async (req, res) => {
   const { job: jobId } = req.body;
   const candidates = await Candidate.find({ job: jobId }).select("user");
+  for (let i = 0; i < candidates.length; i++) {
+    const profile = await Profile.findOne({ createdBy: candidates[i].user });
+    candidates[i] = profile;
+  }
   res.status(StatusCodes.OK).json(candidates);
 };
 

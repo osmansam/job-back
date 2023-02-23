@@ -50,7 +50,10 @@ app.use(fileUpload({ useTempFiles: true }));
 //app.use("api/v1") stuff will come here
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/job", authenticateUser, jobRouter);
-app.use("/api/v1/profile", authenticateUser, ProfileRouter);
+////////////////////////////////////////////////////////////////////
+//buraya bir authantication middleware ekleyeceğiz
+app.use("/api/v1/profile", ProfileRouter);
+////////////////////////////////////////////////////////////////////
 app.use("/api/v1/candidate", authenticateUser, CandidateRouter);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
