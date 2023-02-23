@@ -27,10 +27,23 @@ const getAllCandidates = async (req, res) => {
   const candidates = await Candidate.find().populate({
     path: "job",
   });
-  res.status(StatusCodes.OK).json({ candidates });
+  res.status(StatusCodes.OK).json(candidates);
+};
+const checkCandidate = async (req, res) => {
+  const { job: jobId } = req.body;
+  const alreadyApplied = await Candidate.findOne({
+    user: req.user.userId,
+    job: jobId,
+  });
+  //   if (alreadyApplied) {
+  //     throw new CustomError.BadRequestError("You already applied for this job");
+  //   }
+  const isCandidate = alreadyApplied ? true : false;
+  res.status(StatusCodes.OK).json({ isCandidate });
 };
 
 module.exports = {
   createCandidate,
   getAllCandidates,
+  checkCandidate,
 };
