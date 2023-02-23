@@ -8,9 +8,11 @@ const {
   createCandidate,
   checkCandidate,
   jobCandidates,
+  updateCandidate,
 } = require("../controllers/candidateController");
 
 router.route("/").get(getAllCandidates).post(createCandidate);
+router.route("/update").patch(updateCandidate);
 router.route("/check").post(checkCandidate);
 router.route("/job").post(jobCandidates);
 
