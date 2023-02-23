@@ -7,9 +7,11 @@ const {
   getAllCandidates,
   createCandidate,
   checkCandidate,
+  jobCandidates,
 } = require("../controllers/candidateController");
 
 router.route("/").get(getAllCandidates).post(createCandidate);
 router.route("/check").post(checkCandidate);
+router.route("/job").post(jobCandidates);
 
 module.exports = router;
