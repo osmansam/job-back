@@ -47,10 +47,22 @@ const jobCandidates = async (req, res) => {
   }
   res.status(StatusCodes.OK).json(candidates);
 };
-
+const updateCandidate = async (req, res) => {
+  const { candidateId } = req.body;
+  const candidate = await Candidate.findOneandUpdate(
+    { _id: candidateId },
+    req.body,
+    { new: true, runValidators: true }
+  );
+  if (!candidate) {
+    throw new CustomError.NotFoundError("Candidate not found");
+  }
+  res.status(StatusCodes.OK).json({ candidate });
+};
 module.exports = {
   createCandidate,
   getAllCandidates,
   checkCandidate,
   jobCandidates,
+  updateCandidate,
 };

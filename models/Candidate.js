@@ -11,6 +11,18 @@ const CandidateSchema = new mongoose.Schema({
     ref: "Job",
     required: true,
   },
+  isAccepted: {
+    type: Boolean,
+    default: false,
+  },
+  isRejected: {
+    type: Boolean,
+    default: false,
+  },
+  isPending: {
+    type: Boolean,
+    default: true,
+  },
 });
 CandidateSchema.index({ user: 1, job: 1 }, { unique: true });
 module.exports = mongoose.model("Candidate", CandidateSchema);
