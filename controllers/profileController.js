@@ -37,10 +37,18 @@ const deleteProfile = async (req, res) => {
   }
   res.status(StatusCodes.OK).json({ profile });
 };
+const accessProfile = async (req, res) => {
+  const profile = await Profile.findOne({ createdBy: req.body.user });
+  if (!profile) {
+    throw new CustomError.NotFoundError("Profile not found");
+  }
+  res.status(StatusCodes.OK).json({ profile });
+};
 
 module.exports = {
   getProfile,
   createProfile,
   updateProfile,
   deleteProfile,
+  accessProfile,
 };
