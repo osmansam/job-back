@@ -72,9 +72,11 @@ const updateCandidate = async (req, res) => {
   res.status(StatusCodes.OK).json({ candidate });
 };
 const employeeJobs = async (req, res) => {
-  const candidates = await Candidate.find({ user: req.user.userId }).populate({
-    path: "job",
-  });
+  const candidates = await Candidate.find({ user: req.user.userId })
+    .populate({
+      path: "job",
+    })
+    .select("-user -isAccepted -isRejected -isPending");
   res.status(StatusCodes.OK).json(candidates);
 };
 module.exports = {
