@@ -79,6 +79,20 @@ const employeeJobs = async (req, res) => {
     .select("-user -isAccepted -isRejected -isPending");
   res.status(StatusCodes.OK).json(candidates);
 };
+const deleteCandidate = async (req, res) => {
+  const { jobId, userId } = req.body;
+  if (!jobId || !userId) {
+    throw new CustomError.BadRequestError("Job or User not found");
+  }
+  const candidate = await Candidate.findOneAndDelete({
+    job: jobId,
+    user: userId,
+  });
+  if (!candidate) {
+    throw new CustomError.NotFoundError("Candidate not found");
+  }
+  res.status(StatusCodes.OK).json({ msg: "deleted successfuly" });
+};
 module.exports = {
   createCandidate,
   getAllCandidates,
@@ -86,4 +100,5 @@ module.exports = {
   jobCandidates,
   updateCandidate,
   employeeJobs,
+  deleteCandidate,
 };
