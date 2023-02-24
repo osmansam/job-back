@@ -71,10 +71,17 @@ const updateCandidate = async (req, res) => {
   }
   res.status(StatusCodes.OK).json({ candidate });
 };
+const employeeJobs = async (req, res) => {
+  const candidates = await Candidate.find({ user: req.user.userId }).populate({
+    path: "job",
+  });
+  res.status(StatusCodes.OK).json(candidates);
+};
 module.exports = {
   createCandidate,
   getAllCandidates,
   checkCandidate,
   jobCandidates,
   updateCandidate,
+  employeeJobs,
 };
