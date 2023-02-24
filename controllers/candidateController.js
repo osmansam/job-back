@@ -40,7 +40,7 @@ const checkCandidate = async (req, res) => {
 };
 const jobCandidates = async (req, res) => {
   const { job: jobId } = req.body;
-  const candidates = await Candidate.find({ job: jobId }).select("user");
+  const candidates = await Candidate.find({ job: jobId });
   for (let i = 0; i < candidates.length; i++) {
     const profile = await Profile.findOne({ createdBy: candidates[i].user });
     //burasi candidate a profile eklenerek cozulecek
@@ -50,9 +50,12 @@ const jobCandidates = async (req, res) => {
     let isPending = candidates[i].isPending;
     candidates[i] = profile;
     candidates[i]._id = id;
-    candidates[i].isAccepted = isAccepted;
-    candidates[i].isRejected = isRejected;
-    candidates[i].isPending = isPending;
+    candidates[i] = {
+      ...candidates[i]._doc,
+      isAccepted,
+      isRejected,
+      isPending,
+    };
   }
   res.status(StatusCodes.OK).json(candidates);
 };
