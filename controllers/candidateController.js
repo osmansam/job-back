@@ -40,16 +40,28 @@ const checkCandidate = async (req, res) => {
 };
 const jobCandidates = async (req, res) => {
   const { job: jobId } = req.body;
-  const candidates = await Candidate.find({ job: jobId }).select("user");
+  const candidates = await Candidate.find({ job: jobId });
   for (let i = 0; i < candidates.length; i++) {
     const profile = await Profile.findOne({ createdBy: candidates[i].user });
+    //burasi candidate a profile eklenerek cozulecek
+    let id = candidates[i]._id;
+    let isAccepted = candidates[i].isAccepted;
+    let isRejected = candidates[i].isRejected;
+    let isPending = candidates[i].isPending;
     candidates[i] = profile;
+    candidates[i]._id = id;
+    candidates[i] = {
+      ...candidates[i]._doc,
+      isAccepted,
+      isRejected,
+      isPending,
+    };
   }
   res.status(StatusCodes.OK).json(candidates);
 };
 const updateCandidate = async (req, res) => {
   const { candidateId } = req.body;
-  const candidate = await Candidate.findOneandUpdate(
+  const candidate = await Candidate.findOneAndUpdate(
     { _id: candidateId },
     req.body,
     { new: true, runValidators: true }
