@@ -82,11 +82,12 @@ const employeeJobs = async (req, res) => {
 const deleteCandidate = async (req, res) => {
   const { jobId, userId } = req.body;
   if (!jobId || !userId) {
-    throw new CustomError.BadRequestError("Job or User not found");
+    throw new CustomError.BadRequestError("Job id or user id is missing");
   }
+
   const candidate = await Candidate.findOneAndDelete({
     job: jobId,
-    user: userId,
+    user: req.user.userId,
   });
   if (!candidate) {
     throw new CustomError.NotFoundError("Candidate not found");
